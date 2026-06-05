@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.8] - 2026-06-05
+
 - Added the `page.cua.*` pixel/vision toolset: coordinate-based `click`, `doubleClick`, `drag`, `move`, `scroll`, `keypress`, and `type`, plus a JPEG `screenshot()` whose pixels map 1:1 onto click coordinates at any DPR.
 - Added the `page.domCua.*` DOM-id toolset: `getVisibleDom()` snapshots visible interactive elements as `node_id=N` lines, with `click`, `doubleClick`, `scroll`, `type`, and `keypress` acting against the latest snapshot's ids.
 - Fixed script error messages being dropped from CLI output; thrown errors now report their name and message alongside the stack.
 - Documented the vision and DOM-id workflows in the `--help` LLM usage guide.
+- Capped the daemon's per-connection request buffer so a local client can no longer exhaust daemon memory with an unterminated frame.
+- Serialized `browser-stop` with the per-browser lock so a browser can no longer be torn down while another client's script is running.
+- Hardened daemon cold start against duplicate daemons when concurrent CLI invocations race to spawn one.
+- Defaulted `PW_CHROMIUM_ATTACH_TO_OTHER=1` so attaching over CDP to Chrome 147's built-in remote debugging no longer hangs.
 
 ## [0.2.7] - 2026-04-09
 

@@ -20,7 +20,9 @@ import { Artifact } from "./artifact";
 import { ChannelOwner } from "./channelOwner";
 import { evaluationScript } from "./clientHelper";
 import { Coverage } from "./coverage";
+import { Cua } from "./cua";
 import { DisposableObject, DisposableStub } from "./disposable";
+import { DomCua } from "./domCua";
 import { Download } from "./download";
 import { ElementHandle, determineScreenshotType } from "./elementHandle";
 import { TargetClosedError, isTargetClosedError, parseError, serializeError } from "./errors";
@@ -113,6 +115,8 @@ export class Page extends ChannelOwner<channels.PageChannel> implements api.Page
   _webSocketRoutes: WebSocketRouteHandler[] = [];
 
   readonly coverage: Coverage;
+  readonly cua: Cua;
+  readonly domCua: DomCua;
   readonly keyboard: Keyboard;
   readonly mouse: Mouse;
   readonly request: APIRequestContext;
@@ -155,6 +159,8 @@ export class Page extends ChannelOwner<channels.PageChannel> implements api.Page
       this._browserContext._timeoutSettings
     );
 
+    this.cua = new Cua(this);
+    this.domCua = new DomCua(this);
     this.keyboard = new Keyboard(this);
     this.mouse = new Mouse(this);
     this.request = this._browserContext.request;
